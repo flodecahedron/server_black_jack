@@ -56,3 +56,11 @@ test('un blackjack sur une mise impaire conserve le demi-jeton', () => {
     assert.equal(room.players[1].chips, 1001.5);
     assert.equal(room.players[0].chips, 998.5);
 });
+
+test('un joueur ruine est renfloue a 100 T apres le reglement', () => {
+    const room = roomWithHumanDealer();
+    room.players[1].chips = 0;
+    room.players[1].hands[0] = { cards: [{ value: 10, name: 'king' }, { value: 10, name: 'queen' }, { value: 5, name: '5' }], bet: 100, status: 'busted' };
+    game.resolveRound(room);
+    assert.equal(room.players[1].chips, 100);
+});

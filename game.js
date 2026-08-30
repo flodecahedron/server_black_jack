@@ -306,6 +306,12 @@ function resolveRound(room) {
         dealer.lastOutcome = dealerReward > 0 ? 'win' : dealerReward < 0 ? 'lose' : 'push';
         dealer.lastReward = dealerReward;
     }
+
+    // La table reste jouable après une faillite : le renflouement est appliqué
+    // uniquement à la fin d'une manche, une fois tous les gains réglés.
+    room.players.forEach(player => {
+        if (player.chips <= 0) player.chips = 100;
+    });
     broadcastToRoom(room);
 }
 

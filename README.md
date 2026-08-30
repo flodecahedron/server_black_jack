@@ -7,7 +7,7 @@ Le serveur WebSocket est l'autorité des règles de partie et des jetons de la t
 - `set_bet` immobilise immédiatement la mise du joueur. Elle est rendue sur égalité et réglée à la fin de la manche.
 - Double et split immobilisent une mise supplémentaire seulement si le joueur et la banque peuvent la couvrir.
 - Un blackjack joueur paie exactement `3/2` de gain net (`2,5 ×` la mise rendue). Les demi-jetons sont conservés pour les mises impaires.
-- Il n'y a plus de renflouement automatique qui créait des jetons à zéro.
+- Un joueur ou croupier dont le solde tombe à zéro après le règlement reçoit automatiquement 100 T afin de pouvoir continuer à jouer.
 
 ## Croupier-joueur
 
