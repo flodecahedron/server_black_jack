@@ -143,7 +143,20 @@ function setPlayerBet(room, ws, amount) {
 }
 
 function startRound(room, ws) {
-    if (!room || room.status !== 'waiting') return;
+    if (!room) return;
+    // Une manche réglée revient d'abord à la phase de mises. Cela évite qu'un
+    // clic sur « Nouvelle manche » soit silencieusement ignoré.
+    if (room.status === 'resolved') {
+        room.status = 'waiting';
+        room.players.forEach(player => {
+            player.hands = [];
+            player.currentHandIndex = 0;
+            player.lastOutcome = null;
+            player.lastReward = 0;
+        });
+        return broadcastToRoom(room);
+    }
+    if (room.status !== 'waiting') return;
     const starters = room.players.filter(player => player.id !== room.dealerType && player.pendingBet > 0);
     if (starters.length === 0) return sendError(ws, 'Au moins un joueur doit poser une mise.');
     const dealer = dealerPlayer(room);
